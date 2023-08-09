@@ -1,18 +1,28 @@
 const express = require("express");
 require("dotenv").config();
+const morgan = require("morgan");
 
 const app = express();
 
-app.use(express.json());
+const port = process.env.PORT; // port for the server
+
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(morgan("tiny")); // for logging
+
+// Routes
+const productRoute = require("./src/routes/productRoute");
+// const userRoute = require("./src/routes/userRoute");
+// const orderRoute = require("./src/routes/orderRoute");
+
+// Use routes
+app.use("/products", productRoute);
+
+// serve static files
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-    res.send("Hello World!");
-    }
-);
+	res.send("Hello World!");
+});
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server listening on port ${process.env.PORT}`);
-    }
-);
-
-structure 
+app.listen(port);
