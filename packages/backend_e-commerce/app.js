@@ -12,11 +12,11 @@ app.use(morgan("tiny")); // for logging
 
 // Routes
 const productRoute = require("./src/routes/productRoute");
-// const userRoute = require("./src/routes/userRoute");
-// const orderRoute = require("./src/routes/orderRoute");
+const userRoute = require("./src/routes/userRoute.js");
 
 // Use routes
 app.use("/products", productRoute);
+app.use("/users", userRoute);
 
 // serve static files
 app.use(express.static("public"));
