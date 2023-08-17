@@ -1,22 +1,35 @@
 import { useState, useEffect } from "react";
 import Product from "./components/Product";
-import URLConfig from "./config/url"
+import Pagination from "./components/Pagination";
+import URLConfig from "./config/url";
 
 function App() {
 	const [products, setProducts] = useState(null);
 	const [productCount, setProductCount] = useState(0);
-	// const [currentPage, setCurrentPage] = useState(1);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [pages, setPages] = useState([]);
 
 	useEffect(() => {
 		async function fetchProducts() {
-			const response = await fetch(URLConfig("/products"));
+			setProducts(null);
+			const response = await fetch(URLConfig("/products"), {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					page: currentPage,
+				},
+			});
 			const json = await response.json();
 			setProducts(json.products);
 			setProductCount(json.count);
+			setPages([]);
+			for (let i = 1; i <= Math.ceil(json.count / 10); i++) {
+				setPages((pages) => [...pages, i]);
+			}
 		}
-    
+
 		fetchProducts();
-	}, []);
+	}, [currentPage]);
 
 	return (
 		<>
@@ -57,25 +70,13 @@ function App() {
 						</div>
 					) : (
 						<>
-							<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+							<div className="grid grid-cols-1 mt-4 mb-10 p-2  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 								{products.map((product) => (
 									<Product product={product} key={product.id} />
 								))}
 							</div>
-							<div className="flex justify-center">
-								<div className="flex rounded-md mt-8">
-									<a
-										href="#"
-										className="px-3 py-2 mx-1 rounded-md bg-gray-200 text-gray-600 hover:bg-gray-300">
-										P
-									</a>
-
-									<a
-										href="#"
-										className="px-3 py-2 mx-1 rounded-md bg-gray-200 text-gray-600 hover:bg-gray-300">
-										N
-									</a>
-								</div>
+							<div className="fixed bottom-0 w-full">
+								<Pagination pages={pages} setCurrentPage={setCurrentPage} currentPage={currentPage} />
 							</div>
 						</>
 					)}

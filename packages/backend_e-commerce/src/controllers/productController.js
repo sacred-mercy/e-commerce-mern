@@ -6,7 +6,7 @@ db.connect();
 
 // Get all products
 const getAllProducts = async (req, res) => {
-	const page = req.query.page || 1;
+	const page = req.headers.page || 1;
 	try {
 		// get 10 products according to the page number
 		const products = await Product.find()

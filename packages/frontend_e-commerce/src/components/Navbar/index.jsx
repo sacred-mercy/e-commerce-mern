@@ -2,7 +2,7 @@ import NavLink from "./NavLink";
 import Button from "./Button";
 import { Outlet, Link } from "react-router-dom";
 
-function Navbar({user}) {
+function Navbar({ user }) {
 	return (
 		<>
 			<nav className="bg-white text-white shadow dark:bg-gray-800">
@@ -17,18 +17,18 @@ function Navbar({user}) {
 						</div>
 					</div>
 					<div className="items-center flex">
-						<div className="flex flex-row mx-6">
-							<NavLink to="#">Cart</NavLink>
-							<NavLink to="#">Orders</NavLink>
-							<NavLink to="#">Contact</NavLink>
-						</div>
 						{user ? (
-							<div className="flex flex-row mx-6">
-								<NavLink to="#">{user.name}</NavLink>
-								<Button to="/logout">
-									<Link to={`logout`}>Logout</Link>
-								</Button>
-							</div>
+							<>
+								<div className="flex flex-row mx-6">
+									<NavLink to="/cart">Cart</NavLink>
+								</div>
+								<div className="flex flex-row mx-6">
+									<p className="text-gray-900 mx-3" >{user.name}</p>
+									<Button to="/logout">
+										<Link to={`logout`}>Logout</Link>
+									</Button>
+								</div>
+							</>
 						) : (
 							<div className="flex justify-center">
 								<Button>
