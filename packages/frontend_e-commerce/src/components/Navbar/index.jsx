@@ -18,15 +18,17 @@ function Navbar({ user }) {
 					</div>
 					<div className="items-center flex">
 						<div id="searchBar" className="relative">
-							<input
-								type="text"
-								placeholder="Search"
-								className="bg-gray-100 h-8 text-gray-950 px-5 pr-10 rounded-full text-sm focus:outline-none w-64"
-							/>
-							<button
-								type="submit"
-								className="absolute right-0 top-0 mt-3 mr-4">
-							</button>
+							<form action="/search" method="GET">
+								<input
+									type="text"
+									placeholder="Search"
+									name="search"
+									className="bg-gray-100 h-8 text-gray-950 px-5 pr-10 rounded-full text-sm focus:outline-none w-64"
+								/>
+								<button
+									type="submit"
+									className="absolute right-0 top-0 mt-3 mr-4"></button>
+							</form>
 						</div>
 						{user ? (
 							<>
