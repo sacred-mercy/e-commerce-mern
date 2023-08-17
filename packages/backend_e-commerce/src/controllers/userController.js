@@ -1,5 +1,6 @@
 const User = require("../models/userModel.js");
 const JWT = require("jsonwebtoken");
+const jwtMiddleware = require("../middlewares/JWT");
 const db = require("../config/db");
 require("dotenv").config();
 
@@ -11,13 +12,18 @@ const signIn = async (name, email, password) => {
 		const user = await User.create({ name, email, password });
 		return (result = {
 			status: 200,
-			data: user,
+			data: {
+				message: "User created successfully please login to continue",
+			},
 		});
 	} catch (error) {
 		return (result = {
 			status: 500,
 			data: {
-				message: "Internal server error",
+				message:
+					error.code === 11000
+						? "Email already exists"
+						: "Internal server error",
 			},
 		});
 	}
@@ -26,19 +32,8 @@ const signIn = async (name, email, password) => {
 const login = async (email, password) => {
 	try {
 		const user = await User.findOne({ email });
-		console.log(user);
 		if (user && password === user.password) {
-			const token = JWT.sign(
-				{
-					id: user._id,
-					name: user.name,
-					email: user.email,
-				},
-				process.env.JWT_SECRET,
-				{
-					expiresIn: "30d",
-				}
-			);
+			const token = jwtMiddleware.generateToken(user);
 			return (result = {
 				status: 200,
 				data: {
@@ -49,13 +44,14 @@ const login = async (email, password) => {
 					token,
 				},
 			});
+		} else {
+			return (result = {
+				status: 401,
+				data: {
+					message: "Invalid credentials",
+				},
+			});
 		}
-		return (result = {
-			status: 401,
-			data: {
-				message: "Invalid credentials",
-			},
-		});
 	} catch (error) {
 		return (result = {
 			status: 500,
@@ -66,7 +62,24 @@ const login = async (email, password) => {
 	}
 };
 
-const authenticateToken = (req, res, next) => {};
+const authenticateToken = (req, res, next) => {
+	const authHeader = req.headers["authorization"];
+	const token = authHeader && authHeader.split(" ")[1];
+	if (!token) {
+		return res.status(401).json({
+			message: "Unauthorized",
+		});
+	}
+	JWT.verify(token, process.env.JWT_SECRET, (err, user) => {
+		if (err) {
+			return res.status(403).json({
+				message: "Forbidden",
+			});
+		}
+		req.user = user;
+		next();
+	});
+};
 
 // export all functions
 module.exports = {

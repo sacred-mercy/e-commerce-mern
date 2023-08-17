@@ -7,7 +7,7 @@ function App() {
 	const [products, setProducts] = useState(null);
 	const [productCount, setProductCount] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [pages, setPages] = useState([]);
+
 
 	useEffect(() => {
 		async function fetchProducts() {
@@ -22,10 +22,7 @@ function App() {
 			const json = await response.json();
 			setProducts(json.products);
 			setProductCount(json.count);
-			setPages([]);
-			for (let i = 1; i <= Math.ceil(json.count / 10); i++) {
-				setPages((pages) => [...pages, i]);
-			}
+
 		}
 
 		fetchProducts();
@@ -76,7 +73,7 @@ function App() {
 								))}
 							</div>
 							<div className="fixed bottom-0 w-full">
-								<Pagination pages={pages} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+								<Pagination totalCount={productCount} setCurrentPage={setCurrentPage} currentPage={currentPage} />
 							</div>
 						</>
 					)}

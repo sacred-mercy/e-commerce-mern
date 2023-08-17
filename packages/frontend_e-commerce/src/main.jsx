@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import Login from "./containers/Login/index.jsx";
+import SignUp from "./containers/SignUp/index.jsx";
 import Logout from "./containers/Logout/index.jsx";
 import Navbar from "./components/Navbar/index.jsx";
 import NotFoundPage from "./containers/NotFoundPage/index.jsx";
@@ -28,6 +29,10 @@ function Root() {
 				{
 					path: "/login",
 					element: <Login setUser={setUser} />,
+				},
+				{
+					path: "/signup",
+					element: <SignUp />,
 				},
 				{
 					path: "/logout",

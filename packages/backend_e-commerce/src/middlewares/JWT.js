@@ -11,9 +11,7 @@ const generateToken = (user) => {
 	return jwt.sign(
 		{
 			_id: user._id,
-			name: user.name,
 			email: user.email,
-			isAdmin: user.isAdmin,
 		},
 		JWT_SECRET,
 		{
@@ -24,12 +22,18 @@ const generateToken = (user) => {
 
 function authenticateToken(req, res, next) {
 	const authHeader = req.headers["authorization"];
-	const token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
-
-	if (token == null) return res.sendStatus(401);
-
-	jwt.verify(token, JWT_SECRET, (err, user) => {
-		if (err) return res.sendStatus(403);
+	const token = authHeader && authHeader.split(" ")[1];
+	if (!token) {
+		return res.status(401).json({
+			message: "Unauthorized",
+		});
+	}
+	jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+		if (err) {
+			return res.status(403).json({
+				message: "Forbidden",
+			});
+		}
 		req.user = user;
 		next();
 	});

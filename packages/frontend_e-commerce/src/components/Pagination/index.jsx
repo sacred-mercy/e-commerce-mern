@@ -1,4 +1,16 @@
-export default function Pagination({ pages, setCurrentPage, currentPage }) {
+import { useEffect, useState } from "react";
+
+export default function Pagination({ totalCount, setCurrentPage, currentPage }) {
+	const [pages, setPages] = useState([]);
+
+	useEffect(() => {
+		let pages = [];
+		for (let i = 1; i <= Math.ceil(totalCount / 10); i++) {
+			pages.push(i);
+		}
+		setPages(pages);
+	}, [totalCount]);
+
 	return (
 		<div className="flex justify-center">
 			<div className="flex rounded-md mt-8">

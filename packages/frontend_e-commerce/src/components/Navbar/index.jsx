@@ -17,13 +17,24 @@ function Navbar({ user }) {
 						</div>
 					</div>
 					<div className="items-center flex">
+						<div id="searchBar" className="relative">
+							<input
+								type="text"
+								placeholder="Search"
+								className="bg-gray-100 h-8 text-gray-950 px-5 pr-10 rounded-full text-sm focus:outline-none w-64"
+							/>
+							<button
+								type="submit"
+								className="absolute right-0 top-0 mt-3 mr-4">
+							</button>
+						</div>
 						{user ? (
 							<>
 								<div className="flex flex-row mx-6">
 									<NavLink to="/cart">Cart</NavLink>
 								</div>
 								<div className="flex flex-row mx-6">
-									<p className="text-gray-900 mx-3" >{user.name}</p>
+									<p className="text-gray-900 mx-3">{user.name}</p>
 									<Button to="/logout">
 										<Link to={`logout`}>Logout</Link>
 									</Button>

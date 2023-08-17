@@ -8,7 +8,7 @@ function InputTextBox(props) {
 				{label}
 			</label>
 			<input
-				className="border border-gray-300 p-2 w-full"
+				className="border border-gray-300 rounded p-2 w-full"
 				type={type}
 				name={name}
 				id={id}
