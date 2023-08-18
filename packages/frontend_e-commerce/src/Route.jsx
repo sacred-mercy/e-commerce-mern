@@ -5,6 +5,7 @@ import Logout from "./containers/Logout/index.jsx";
 import Navbar from "./components/Navbar/index.jsx";
 import NotFoundPage from "./containers/NotFoundPage/index.jsx";
 import Search from "./containers/Search/index.jsx";
+import ProductPage from "./containers/ProductPage/index.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useState } from "react";
 
@@ -41,6 +42,10 @@ function Route() {
 				{
 					path: "/search",
 					element: <Search />,
+				},
+				{
+					path: "product/:id",
+					element: <ProductPage />,
 				},
 			],
 		},

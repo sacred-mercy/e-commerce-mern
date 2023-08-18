@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // components
 import Button from "../../components/Button";
@@ -6,6 +7,7 @@ import InputTextBox from "../../components/InputTextBox";
 import URLConfig from "../../config/url";
 
 function Login(props) {
+	let navigate = useNavigate();
 	const { setUser } = props;
 	const [login, setLogin] = useState(false);
 	const [email, setEmail] = useState("");
@@ -35,7 +37,7 @@ function Login(props) {
 				localStorage.setItem("user", JSON.stringify(json.user));
 
 				// redirect to home page using react router dom
-				window.location.href = "/";
+				navigate("/");
 			} else {
 				console.log("error");
 				setLogin(false);

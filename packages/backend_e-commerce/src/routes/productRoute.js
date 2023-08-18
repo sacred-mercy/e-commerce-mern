@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const product = require("../controllers/productController");
 
-// Get all products
 router
     .route("/")
     .get(async (req, res) => {
@@ -14,7 +13,6 @@ router
         res.status(result.status).json(result.data);
     });
 
-// Get a product by id, Update a product, Delete a product
 router
     .route("/:id")
     .get(async (req, res) => {
@@ -29,5 +27,16 @@ router
         const result = await product.deleteProduct(req, res);
         res.status(result.status).json(result.data);
     });
+
+// route for searching products
+router.route("/search/:keyword").get(async (req, res) => {
+    if (req.params.keyword.trim() === "") {
+        return res.status(400).json({
+            message: "Bad request",
+        });
+    }
+    const result = await product.searchProducts(req, res);
+    res.status(result.status).json(result.data);
+});
 
 module.exports = router;

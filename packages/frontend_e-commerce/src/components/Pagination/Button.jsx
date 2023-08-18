@@ -3,12 +3,12 @@ function Button(props) {
 	if (props.disabled) {
 		css += " cursor-not-allowed"; 
 	} else {
-        css += " hover:bg-gray-300";
+        css += " hover:bg-gray-300 cursor-pointer";
     }
 	return (
 		<button
 			onClick={props.onClick}
-			className={"select-none px-3 py-2 mx-1 cursor-pointer rounded-md " + css}
+			className={"select-none px-3 py-2 mx-1 rounded-md " + css}
 			disabled={props.disabled}>
 			{props.children}
 		</button>

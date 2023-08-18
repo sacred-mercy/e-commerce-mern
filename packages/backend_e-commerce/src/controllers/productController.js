@@ -132,10 +132,46 @@ const deleteProduct = async (req, res) => {
 	}
 };
 
+// Search products
+const searchProducts = async (req, res) => {
+	try {
+		// find any document matching description or title or brand to the keyword
+		const products = await Product.find({
+			$or: [
+				{ description: { $regex: req.params.keyword, $options: "i" } },
+				{ title: { $regex: req.params.keyword, $options: "i" } },
+				{ brand: { $regex: req.params.keyword, $options: "i" } },
+			],
+		});
+		if (products.length === 0) {
+			return (result = {
+				status: 404,
+				data: {
+					message: "No products found",
+				},
+			});
+		} else {
+			return (result = {
+				status: 200,
+				data: products,
+			});
+		}
+	} catch (error) {
+		console.log(error);
+		return (result = {
+			status: 500,
+			data: {
+				message: "Internal server error",
+			},
+		});
+	}
+};
+
 module.exports = {
 	getAllProducts,
 	getProductById,
 	createProduct,
 	updateProduct,
 	deleteProduct,
+	searchProducts,
 };
