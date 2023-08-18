@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
+import Button from "./Button";
 
-export default function Pagination({ totalCount, setCurrentPage, currentPage }) {
+export default function Pagination({
+	totalCount,
+	setCurrentPage,
+	currentPage,
+}) {
 	const [pages, setPages] = useState([]);
 
 	useEffect(() => {
@@ -14,42 +19,38 @@ export default function Pagination({ totalCount, setCurrentPage, currentPage }) 
 	return (
 		<div className="flex justify-center">
 			<div className="flex rounded-md mt-8">
-				<a
+				<Button
 					onClick={() => {
 						if (currentPage > 1) {
 							setCurrentPage(currentPage - 1);
 						}
 					}}
-					className="px-3 py-2 mx-1 cursor-pointer rounded-md bg-gray-200 text-gray-600 hover:bg-gray-300">
+					disabled={currentPage === 1}>
 					P
-				</a>
+				</Button>
 				{pages.map((page) => {
-					let className =
+					let styleColor =
 						page === currentPage
 							? "bg-pink-500 text-pink-900 hover:bg-pink-300"
 							: "bg-gray-200 text-gray-600 hover:bg-gray-300";
-
-					let styleColor =
-						"px-3 py-2 mx-1 rounded-md cursor-pointer " + className;
-
 					return (
-						<button
+						<Button
 							key={page}
 							onClick={() => setCurrentPage(page)}
-							className={styleColor}>
+							cssClass={styleColor}>
 							{page}
-						</button>
+						</Button>
 					);
 				})}
-				<a
+				<Button
 					onClick={() => {
 						if (currentPage < pages.length) {
 							setCurrentPage(currentPage + 1);
 						}
 					}}
-					className="px-3 py-2 mx-1 cursor-pointer rounded-md bg-gray-200 text-gray-600 hover:bg-gray-300">
+					disabled={currentPage === pages.length}>
 					N
-				</a>
+				</Button>
 			</div>
 		</div>
 	);

@@ -8,10 +8,9 @@ function App() {
 	const [productCount, setProductCount] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
 
-
 	useEffect(() => {
 		async function fetchProducts() {
-			setProducts(null);
+			// setProducts(null);
 			const response = await fetch(URLConfig("/products"), {
 				method: "GET",
 				headers: {
@@ -22,7 +21,6 @@ function App() {
 			const json = await response.json();
 			setProducts(json.products);
 			setProductCount(json.count);
-
 		}
 
 		fetchProducts();
@@ -72,13 +70,19 @@ function App() {
 									<Product product={product} key={product.id} />
 								))}
 							</div>
-							<div className="fixed bottom-0 w-full">
-								<Pagination totalCount={productCount} setCurrentPage={setCurrentPage} currentPage={currentPage} />
-							</div>
 						</>
 					)}
 				</>
 			)}
+			{productCount > 0 ? (
+				<div className="fixed bottom-0 w-full">
+					<Pagination
+						totalCount={productCount}
+						setCurrentPage={setCurrentPage}
+						currentPage={currentPage}
+					/>
+				</div>
+			) : null}
 		</>
 	);
 }
