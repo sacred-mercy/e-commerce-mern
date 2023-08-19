@@ -80,6 +80,7 @@ function App() {
 						totalCount={productCount}
 						setCurrentPage={setCurrentPage}
 						currentPage={currentPage}
+						perPage={10}
 					/>
 				</div>
 			) : null}

@@ -135,6 +135,7 @@ const deleteProduct = async (req, res) => {
 // Search products
 const searchProducts = async (req, res) => {
 	try {
+		const page = req.headers.page || 1;
 		// find any document matching description or title or brand to the keyword
 		const products = await Product.find({
 			$or: [
@@ -142,18 +143,31 @@ const searchProducts = async (req, res) => {
 				{ title: { $regex: req.params.keyword, $options: "i" } },
 				{ brand: { $regex: req.params.keyword, $options: "i" } },
 			],
+		}).limit(10).skip((page - 1) * 10);
+		// count the number of products found
+		const count = await Product.countDocuments({
+			$or: [
+				{ description: { $regex: req.params.keyword, $options: "i" } },
+				{ title: { $regex: req.params.keyword, $options: "i" } },
+				{ brand: { $regex: req.params.keyword, $options: "i" } },
+			],
 		});
-		if (products.length === 0) {
+		if (count === 0) {
 			return (result = {
 				status: 404,
 				data: {
 					message: "No products found",
+					products: null,
+					count: 0,
 				},
 			});
 		} else {
 			return (result = {
 				status: 200,
-				data: products,
+				data: {
+					products,
+					count: count,
+				}
 			});
 		}
 	} catch (error) {

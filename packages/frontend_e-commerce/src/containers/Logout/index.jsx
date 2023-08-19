@@ -7,7 +7,7 @@ function Logout({setUser}) {
         setUser(null);
     });
 
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
 }
 
 export default Logout;

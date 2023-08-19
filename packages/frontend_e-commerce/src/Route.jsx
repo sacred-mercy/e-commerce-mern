@@ -17,10 +17,12 @@ function Route() {
 			: null
 	);
 
+	const [search, setSearch] = useState("");
+
 	const router = createBrowserRouter([
 		{
 			path: "/",
-			element: <Navbar user={user} />,
+			element: <Navbar user={user} setSearch={setSearch} search={search} />,
 			errorElement: <NotFoundPage />,
 			children: [
 				{
@@ -41,7 +43,7 @@ function Route() {
 				},
 				{
 					path: "/search",
-					element: <Search />,
+					element: <Search search={search} />,
 				},
 				{
 					path: "product/:id",

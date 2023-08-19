@@ -63,13 +63,6 @@ export default function ProductPage() {
 							/>
 						</div>
 						<div className="flex">
-							<img
-								className="p-2 rounded h-48 w-full object-cover object-center cursor-pointer"
-								style={{ maxHeight: "100px", maxWidth: "100px" }}
-								src={product.thumbnail}
-								alt={product.title}
-								onClick={() => handleImageClick(product.thumbnail)}
-							/>
 							{product.images.map((img, index) => (
 								<img
 									key={index}
@@ -101,6 +94,12 @@ export default function ProductPage() {
 							<p className="text-sm font-medium text-gray-500">
 								{product.description}
 							</p>
+						</div>
+						{/* add to cart button */}
+						<div className="p-4">
+							<button className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700">
+								Add to Cart
+							</button>
 						</div>
 					</div>
 				</div>
